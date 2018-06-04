@@ -1,18 +1,18 @@
 package com.leon.lfilepickerlibrary.model;
 
-import com.leon.lfilepickerlibrary.R;
 
 import java.io.Serializable;
 
 /**
- * 作者：Leon
  * 时间：2017/3/21 14:50
+ *
+ * @author Administrator
  */
 public class ParamEntity implements Serializable {
     private String title;
     private String titleColor;
-    private int titleStyle ;
-    private int theme ;
+    private int titleStyle;
+    private int theme;
     private String backgroundColor;
     private int backIcon;
     private boolean mutilyMode;
@@ -23,6 +23,7 @@ public class ParamEntity implements Serializable {
     private int maxNum;
     private boolean chooseMode = true;
     private String path;
+    private String mRootPath;
     private long fileSize;
     private boolean isGreater;
 
@@ -138,6 +139,14 @@ public class ParamEntity implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getmRootPath() {
+        return mRootPath;
+    }
+
+    public void setmRootPath(String mRootPath) {
+        this.mRootPath = mRootPath;
     }
 
     public long getFileSize() {

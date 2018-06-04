@@ -33,6 +33,7 @@ public class LFilePicker {
     private String mNotFoundFiles;
     private int mMaxNum;
     private String mStartPath;
+    private String mRootPath;
     private boolean mIsGreater = true;//是否大于
     private long mFileSize;
 
@@ -221,6 +222,17 @@ public class LFilePicker {
     }
 
     /**
+     * 设置根目录，可以回退到的最大根目录
+     *
+     * @param path
+     * @return
+     */
+    public LFilePicker withRootPath(String path) {
+        this.mRootPath = path;
+        return this;
+    }
+
+    /**
      * 设置选择模式，true为文件选择模式，false为文件夹选择模式，默认为true
      *
      * @param chooseMode
@@ -300,6 +312,7 @@ public class LFilePicker {
         paramEntity.setMaxNum(mMaxNum);
         paramEntity.setChooseMode(mChooseMode);
         paramEntity.setPath(mStartPath);
+        paramEntity.setmRootPath(mRootPath);
         paramEntity.setFileSize(mFileSize);
         paramEntity.setGreater(mIsGreater);
         Bundle bundle = new Bundle();

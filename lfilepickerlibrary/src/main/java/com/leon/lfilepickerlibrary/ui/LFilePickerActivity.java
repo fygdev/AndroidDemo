@@ -41,6 +41,7 @@ public class LFilePickerActivity extends AppCompatActivity {
     private TextView mTvBack;
     private Button mBtnAddBook;
     private String mPath;
+    private String mRootPath;
     private List<File> mListFiles;
     /**
      * 存放选中条目的数据地址
@@ -70,13 +71,27 @@ public class LFilePickerActivity extends AppCompatActivity {
             return;
         }
         mPath = mParamEntity.getPath();
+        mRootPath = mParamEntity.getmRootPath();
         if (StringUtils.isEmpty(mPath)) {
             //如果没有指定路径，则使用默认路径
             mPath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mTvPath.setText("内部存储设备");
+            if (StringUtils.isEmpty(mRootPath)) {
+                mRootPath = mPath;
+            }
         } else {
-            String pathName = mPath.replace("/storage/emulated/0", "内部存储设备");
-            Log.d("LFilePickerActivity", mPath);
+            String pathName = mPath;
+            if (mPath.contains("/storage/emulated/0")) {
+                if (StringUtils.isEmpty(mRootPath)) {
+                    mRootPath = "/storage/emulated/0";
+                }
+                pathName = mPath.replace("/storage/emulated/0", "内部存储设备");
+                Log.d("LFilePickerActivity", mPath);
+            } else {
+                if (StringUtils.isEmpty(mRootPath)) {
+                    mRootPath = "/";
+                }
+            }
             mTvPath.setText(pathName);
         }
         mFilter = new LFileFilter(mParamEntity.getFileTypes());
@@ -148,7 +163,7 @@ public class LFilePickerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String tempPath = new File(mPath).getParent();
-                if (tempPath == null || "/storage/emulated".equals(tempPath)) {
+                if (tempPath == null || mRootPath.equals(mPath)) {
                     return;
                 }
                 mPath = tempPath;
@@ -159,7 +174,11 @@ public class LFilePickerActivity extends AppCompatActivity {
                 updateMenuTitle();
                 mBtnAddBook.setText(getString(R.string.lfile_Selected));
                 mRecylerView.scrollToPosition(0);
-                String pathName = mPath.replace("/storage/emulated/0", "内部存储设备");
+
+                String pathName = mPath;
+                if ("/storage/emulated/0".equals(mRootPath)) {
+                    pathName = mPath.replace(mRootPath, "内部存储设备");
+                }
                 Log.d("LFilePickerActivity", mPath);
                 setShowPath(pathName);
                 //清除添加集合中数据
@@ -244,7 +263,11 @@ public class LFilePickerActivity extends AppCompatActivity {
      */
     private void chekInDirectory(int position) {
         mPath = mListFiles.get(position).getAbsolutePath();
-        String pathName = mPath.replace("/storage/emulated/0", "内部存储设备");
+
+        String pathName = mPath;
+        if ("/storage/emulated/0".equals(mRootPath)) {
+            pathName = mPath.replace(mRootPath, "内部存储设备");
+        }
         Log.d("LFilePickerActivity", mPath);
         setShowPath(pathName);
         //更新数据源
