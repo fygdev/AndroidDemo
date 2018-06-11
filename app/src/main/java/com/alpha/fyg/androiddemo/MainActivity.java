@@ -8,11 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.leon.lfilepickerlibrary.utils.Constant;
+import com.leon.lfilepickerlibrary.utils.FileUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private EditText etTest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        etTest = findViewById(R.id.et_test);
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -87,4 +97,52 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void btnTest(View view) {
+        File file = new File("/storage/usb0/test.txt");
+        Log.d("MainActivity", "file.exists():" + file.exists());
+        if (file.exists()) {
+
+//            userinfo = new ArrayList<>();
+            // 建立一个输入流对象reader
+            InputStreamReader reader = null;
+            // 建立一个对象，它把文件内容转成计算机能读懂的语言
+            BufferedReader br = null;
+            try {
+                reader = new InputStreamReader(new FileInputStream(file), "GBK");
+                br = new BufferedReader(reader);
+                String line;
+                while ((line = br.readLine()) != null) {
+//                    userinfo.add(line);   // 一次读入一行数据
+                    Log.d("MainActivity", line);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+//        String info = etTest.getText().toString().trim();
+//        List<String> infoList = new ArrayList<>();
+//        infoList.add(info);
+//        Log.e("MainActivity", "infoList.size():" + infoList.size());
+//        Log.e("MainActivity", "info:" + info + "====hhhh");
+//        Toast.makeText(this, infoList.get(0), Toast.LENGTH_SHORT).show();
+//        etTest.setText(infoList.get(0));
+    }
 }
