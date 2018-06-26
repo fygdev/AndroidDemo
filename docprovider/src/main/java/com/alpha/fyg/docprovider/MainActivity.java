@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -42,37 +43,45 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             Uri treeUri = resultData.getData();
             Log.e("MainActivity", "treeUri:" + treeUri);
-            getUri(treeUri, "/test/test.txt");
-
             DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+//            pickedDir.createDirectory("abc");
 
-            for (DocumentFile file : pickedDir.listFiles()) {
-                if (file.isDirectory()) {
-                    for (DocumentFile file1 : file.listFiles()) {
-                        if ("test.txt".equals(file1.getName())) {
-                            Log.e("MainActivity", "uri:" + file1.getUri());
-                        }
-                    }
+            Uri testUri = getUri(treeUri, "/test/test.txt");
+            Log.e("MainActivity", "testUri:" + testUri);
+            DocumentFile documentFile = DocumentFile.fromSingleUri(MainActivity.this, testUri);
+            Uri targetUri = getUri(treeUri, "/abc");
+
+            try {
+//                    DocumentsContract.moveDocument(getContentResolver(), testUri, documentFile.getParentFile().getUri(), targetUri);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    DocumentsContract.copyDocument(getContentResolver(), testUri, targetUri);
                 } else {
-                    if ("test.txt".equals(file.getName())) {
-                        Log.e("MainActivity", "uri:" + file.getUri());
-                    }
                 }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-//            // List all existing files inside picked directory
-//            for (DocumentFile file : pickedDir.listFiles()) {
-//                Log.e("MainActivity", "Found file " + file.getName() + " with size " + file.length());
-//                Log.e("MainActivity", "file.getUri():" + file.getUri());
-//                if (file.getName().equals("test")) {
-//                    Log.e("MainActivity", "file.canWrite():" + file.canWrite());
-//                    if (file.canWrite()) {
-//                        file.delete();
+
+//            OutputStream out = null;
+//            try {
+//                out = getContentResolver().openOutputStream(documentFile.getUri());
+////            getContentResolver().openInputStream()
+//                out.write("A long time ago...".getBytes());
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (out != null) {
+//                    try {
+//                        out.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
 //                    }
 //                }
+//
 //            }
-
-//            createFile(treeUri);
-
+//
 
         }
     }
@@ -85,16 +94,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                uri = DocumentsContract.buildDocumentUriUsingTree(treeUri, "://test/test.txt");
-                Uri uri1 = DocumentsContract.buildDocumentUriUsingTree(treeUri, DocumentsContract.getTreeDocumentId(treeUri) + "/test/test.txt");
-                DocumentFile file = DocumentFile.fromSingleUri(MainActivity.this, uri1);
-                boolean isDelete = file.delete();
-                Log.e("MainActivity", "isDelete:" + isDelete);
-
-                //DocumentsContract.getTreeDocumentId(uri)
-//                Log.e("MainActivity1", "uri:" + uri);
-                Log.e("MainActivity", "uri1:" + uri1);
-
+                uri = DocumentsContract.buildDocumentUriUsingTree(treeUri, DocumentsContract.getTreeDocumentId(treeUri) + filepath);
             }
         }
 

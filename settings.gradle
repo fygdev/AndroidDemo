@@ -1,1 +1,1 @@
-include ':app',':lfilepickerlibrary', ':docprovider'
+include ':app',':lfilepickerlibrary', ':docprovider', ':ndkdemo'

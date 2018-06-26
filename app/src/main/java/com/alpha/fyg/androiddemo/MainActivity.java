@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.leon.lfilepickerlibrary.utils.Constant;
-import com.leon.lfilepickerlibrary.utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,10 +23,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @author Administrator
  */
 public class MainActivity extends AppCompatActivity {
+
     public static int REQUESTCODE_FROM_ACTIVITY = 1000;
     public static int REQUESTCODE_FROM_FRAGMENT = 1001;
     // Storage Permissions
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
         }
+
     }
 
     public void btnSelectFile(View view) {
