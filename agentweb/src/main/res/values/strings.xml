@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AgentWeb</string>
+    <string name="title_activity_base_web">BaseWebActivity</string>
+</resources>

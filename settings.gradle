@@ -1,1 +1,1 @@
-include ':app',':lfilepickerlibrary', ':docprovider', ':ndkdemo'
+include ':app',':lfilepickerlibrary', ':docprovider', ':ndkdemo', ':agentweb'
