@@ -44,6 +44,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String cacherDir = FileUtils.getCacheDir(this);
+        Log.e("MainActivity", cacherDir);
+        String externalCacherDir = FileUtils.getExternalCacheDir(this);
+        Log.e("MainActivity", externalCacherDir);
+        String externalFileDir = FileUtils.getExternalFileDir(this);
+        String externalStorageDir = FileUtils.getExternalStorageDirectory();
+        String fileDir = FileUtils.getFileDir(this);
+        Log.e("MainActivity", externalFileDir);
+        Log.e("MainActivity", externalStorageDir);
+        Log.e("MainActivity", fileDir);
+
+
+        File encFile = new File(FileUtils.getExternalStorageDirectory(), "2012年至2016年广州市高标范围20180320.enc");
+        if (encFile.exists()) {
+            encFile.delete();
+            Log.e("MainActivity", "enfFileDelete");
+//            FileUtils.fileChannelCopy(encFile, FileUtils.getFileDir(this));
+
+
+        }
+        File targetFile = new File(FileUtils.getFileDir(this), "2012年至2016年广州市高标范围20180320.enc");
+        if (targetFile.exists()) {
+            targetFile.delete();
+            Log.e("MainActivity", "targetFileDelete");
+        }
+
         etTest = findViewById(R.id.et_test);
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);

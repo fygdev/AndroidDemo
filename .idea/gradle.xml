@@ -12,7 +12,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/docprovider" />
             <option value="$PROJECT_DIR$/lfilepickerlibrary" />
+            <option value="$PROJECT_DIR$/materialdesigndemo" />
             <option value="$PROJECT_DIR$/ndkdemo" />
+            <option value="$PROJECT_DIR$/viewpagerbanner" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
